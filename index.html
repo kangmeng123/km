@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>赛博朋克飞机大战</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="game-canvas" width="800" height="600"></canvas>
+        <div id="ui">
+            <div id="score">得分: <span id="score-value">0</span></div>
+            <div id="lives">生命: <span id="lives-value">3</span></div>
+            <div id="game-over" class="hidden">
+                <h2>游戏结束</h2>
+                <p>最终得分: <span id="final-score">0</span></p>
+                <button id="restart-btn">重新开始</button>
+            </div>
+            <div id="start-screen">
+                <h1>赛博朋克飞机大战</h1>
+                <p>使用方向键移动，空格键发射子弹</p>
+                <button id="start-btn">开始游戏</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
