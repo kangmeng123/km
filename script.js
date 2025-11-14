@@ -8,6 +8,8 @@ const scoreElement = document.getElementById('score-value');
 const livesElement = document.getElementById('lives-value');
 const startBtn = document.getElementById('start-btn');
 const restartBtn = document.getElementById('restart-btn');
+const likeBtn = document.getElementById('like-btn');
+const likeCount = document.querySelector('.like-count');
 
 let gameRunning = false;
 let score = 0;
@@ -17,6 +19,8 @@ let enemies = [];
 let bullets = [];
 let enemySpawnTimer = 0;
 let keys = {};
+let likeCountValue = 0;
+let isLiked = false;
 
 // 玩家飞机类
 class Player {
@@ -367,4 +371,23 @@ restartBtn.addEventListener('click', () => {
     gameRunning = true;
     initGame();
     gameLoop();
+});
+
+// 点赞功能
+likeBtn.addEventListener('click', () => {
+    isLiked = !isLiked;
+    
+    if (isLiked) {
+        likeCountValue++;
+        likeBtn.classList.add('liked');
+        const heart = document.querySelector('.heart');
+        heart.textContent = '♥';
+    } else {
+        likeCountValue--;
+        likeBtn.classList.remove('liked');
+        const heart = document.querySelector('.heart');
+        heart.textContent = '♡';
+    }
+    
+    likeCount.textContent = likeCountValue;
 });

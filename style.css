@@ -47,6 +47,50 @@ body {
     right: 20px;
 }
 
+#like-container {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.like-button {
+    background-color: #000;
+    color: #f0f;
+    border: 2px solid #f0f;
+    box-shadow: 0 0 10px #f0f;
+    padding: 10px 20px;
+    font-size: 18px;
+    font-family: 'Courier New', monospace;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    pointer-events: auto;
+}
+
+.like-button:hover {
+    background-color: #f0f;
+    color: #000;
+    box-shadow: 0 0 15px #f0f;
+}
+
+.like-button.liked {
+    color: #f00;
+    border-color: #f00;
+    box-shadow: 0 0 10px #f00;
+}
+
+.like-button.liked:hover {
+    background-color: #f00;
+    color: #000;
+    box-shadow: 0 0 15px #f00;
+}
+
+.heart {
+    font-size: 24px;
+}
+
 #game-over, #start-screen {
     position: absolute;
     top: 50%;
@@ -75,7 +119,7 @@ body {
     color: #0ff;
 }
 
-button {
+button:not(.like-button) {
     background-color: #000;
     color: #0f0;
     border: 2px solid #0f0;
@@ -87,7 +131,7 @@ button {
     margin-top: 20px;
 }
 
-button:hover {
+button:not(.like-button):hover {
     background-color: #0f0;
     color: #000;
     box-shadow: 0 0 15px #0f0;
