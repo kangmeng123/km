@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>点赞页面</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .container {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 350px;
+            width: 90%;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+        
+        .like-button {
+            width: 100px;
+            height: 100px;
+            background: #ff6b6b;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+        
+        .like-button:hover {
+            transform: scale(1.1);
+            background: #ff5252;
+        }
+        
+        .like-button.liked {
+            background: #4caf50;
+        }
+        
+        .like-icon {
+            font-size: 48px;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+        
+        .like-button.liked .like-icon {
+            transform: scale(1.2);
+        }
+        
+        .count {
+            font-size: 24px;
+            color: #333;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .message {
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>请为我们点赞</h1>
+        <button class="like-button" id="likeBtn">
+            <span class="like-icon">❤️</span>
+        </button>
+        <div class="count" id="likeCount">0</div>
+        <div class="message" id="message">点击爱心按钮点赞</div>
+    </div>
+
+    <script>
+        let count = 0;
+        const likeBtn = document.getElementById('likeBtn');
+        const likeCount = document.getElementById('likeCount');
+        const message = document.getElementById('message');
+        
+        likeBtn.addEventListener('click', function() {
+            count++;
+            likeCount.textContent = count;
+            likeBtn.classList.add('liked');
+            
+            // 添加动画效果
+            likeBtn.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                likeBtn.style.transform = 'scale(1)';
+            }, 100);
+            
+            // 更换图标
+            const icon = likeBtn.querySelector('.like-icon');
+            icon.textContent = '❤️';
+            
+            // 更新消息
+            if (count === 1) {
+                message.textContent = '谢谢您的点赞！';
+            } else if (count % 10 === 0) {
+                message.textContent = `您已经点了 ${count} 个赞，非常感谢！`;
+            } else {
+                message.textContent = '感谢您的支持！';
+            }
+            
+            // 3秒后移除liked类，让按钮恢复原状
+            setTimeout(() => {
+                likeBtn.classList.remove('liked');
+            }, 300);
+        });
+    </script>
+</body>
+</html>
