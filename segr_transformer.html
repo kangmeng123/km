@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SETR: 重新思考语义分割 - 基于Transformer的序列到序列方法</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .authors {
+            margin-top: 15px;
+            font-size: 1em;
+            opacity: 0.8;
+        }
+        
+        .section {
+            background: white;
+            margin: 20px 0;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        h2 {
+            color: #667eea;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .abstract {
+            text-align: justify;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+        
+        .model-architecture {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .architecture-diagram {
+            flex: 1;
+            min-width: 300px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+        }
+        
+        .architecture-diagram h3 {
+            color: #28a745;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .transformer-block {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 4px solid #28a745;
+        }
+        
+        .decoder-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .decoder-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .decoder-card h3 {
+            color: #fd7e14;
+            margin-bottom: 10px;
+        }
+        
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .results-table th,
+        .results-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .results-table th {
+            background-color: #667eea;
+            color: white;
+        }
+        
+        .results-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .results-table tr:hover {
+            background-color: #e8f5ff;
+        }
+        
+        .key-contributions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .contribution-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .contribution-card h3 {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .comparison {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .comparison-item {
+            flex: 1;
+            min-width: 250px;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .fcn-comparison {
+            background: #ffeaa7;
+            border: 2px solid #fdcb6e;
+        }
+        
+        .transformer-comparison {
+            background: #74b9ff;
+            color: white;
+            border: 2px solid #0984e3;
+        }
+        
+        .dataset-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .dataset-card {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .dataset-card h3 {
+            color: #00b894;
+            margin-bottom: 15px;
+        }
+        
+        .dataset-card .result {
+            font-size: 2em;
+            font-weight: bold;
+            color: #00b894;
+        }
+        
+        .references {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .references ul {
+            padding-left: 20px;
+        }
+        
+        .references li {
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>SETR: 重新思考语义分割</h1>
+            <div class="subtitle">基于Transformer的序列到序列预测方法</div>
+            <div class="authors">
+                Sixiao Zheng<sup>1</sup>*, Jiachen Lu<sup>1</sup>, Hengshuang Zhao<sup>2</sup>, Xiatian Zhu<sup>3</sup>, 
+                Zekun Luo<sup>4</sup>, Yabiao Wang<sup>4</sup>, Yanwei Fu<sup>1</sup>, Jianfeng Feng<sup>1</sup>, 
+                Tao Xiang<sup>3,5</sup>, Philip H.S. Torr<sup>2</sup>, Li Zhang<sup>1†</sup>
+            </div>
+            <div class="authors">
+                <sup>1</sup>复旦大学 <sup>2</sup>牛津大学 <sup>3</sup>萨里大学 <sup>4</sup>腾讯优图实验室 <sup>5</sup>Facebook AI
+            </div>
+        </header>
+
+        <section class="section">
+            <h2>摘要</h2>
+            <div class="abstract">
+                <p>大多数最新的语义分割方法采用具有编码器-解码器架构的全卷积网络(FCN)。编码器逐步降低空间分辨率，
+                并学习具有更大感受野的更抽象/语义化的视觉概念。由于上下文建模对于分割至关重要，最新的研究
+                集中于通过空洞/扩张卷积或插入注意力模块来增加感受野。然而，基于编码器-解码器的FCN架构保持不变。
+                在本文中，我们通过将语义分割视为序列到序列预测任务来提供一个替代视角。具体来说，我们部署纯
+                Transformer(即，没有卷积和分辨率降低)将图像编码为补丁序列。由于Transformer的每一层都对全局上下文
+                进行建模，该编码器可以与简单解码器结合，提供强大的分割模型，称为SEgmentationTRansformer(SETR)。
+                广泛的实验表明，SETR在ADE20K(50.28% mIoU)、Pascal Context(55.83% mIoU)上达到了新的
+                最佳状态，并在Cityscapes上取得了具有竞争力的结果。特别地，我们在提交当天在高度竞争的ADE20K
+                测试服务器排行榜上取得了第一名。</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>关键贡献</h2>
+            <div class="key-contributions">
+                <div class="contribution-card">
+                    <h3>序列到序列视角</h3>
+                    <p>从序列到序列学习的角度重新制定图像语义分割问题，提供FCN模型设计的替代方案</p>
+                </div>
+                <div class="contribution-card">
+                    <h3>纯Transformer编码器</h3>
+                    <p>利用Transformer框架通过序列化图像实现完全注意力特征表示编码器</p>
+                </div>
+                <div class="contribution-card">
+                    <h3>多种解码器设计</h3>
+                    <p>引入三种不同复杂度的解码器设计，广泛检验自注意力特征表示</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>模型架构</h2>
+            <div class="model-architecture">
+                <div class="architecture-diagram">
+                    <h3>SETR架构</h3>
+                    <div class="transformer-block">
+                        <strong>图像到序列 (Image to Sequence)</strong><br>
+                        将图像分割为固定大小的补丁网格，形成补丁序列，通过线性嵌入层应用到每个补丁的展平像素向量
+                    </div>
+                    <div class="transformer-block">
+                        <strong>Transformer编码器</strong><br>
+                        纯Transformer编码器，具有全局感受野，解决现有FCN编码器的有限感受野问题
+                    </div>
+                    <div class="transformer-block">
+                        <strong>位置嵌入</strong><br>
+                        学习特定嵌入以编码补丁的空间信息，保持空间信息尽管Transformer的无序自注意力特性
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>解码器设计</h2>
+            <div class="decoder-types">
+                <div class="decoder-card">
+                    <h3>朴素上采样 (Naive)</h3>
+                    <p>首先将Transformer特征投影到类别数量维度，然后简单地双线性上采样到完整图像分辨率</p>
+                </div>
+                <div class="decoder-card">
+                    <h3>渐进上采样 (PUP)</h3>
+                    <p>采用渐进式上采样策略，交替进行卷积层和上采样操作，以2倍限制上采样以减少噪声预测</p>
+                </div>
+                <div class="decoder-card">
+                    <h3>多级特征聚合 (MLA)</h3>
+                    <p>以类似特征金字塔网络的精神进行多级特征聚合，使用来自多个Transformer层的特征</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>FCN vs Transformer比较</h2>
+            <div class="comparison">
+                <div class="comparison-item fcn-comparison">
+                    <h3>传统FCN方法</h3>
+                    <ul>
+                        <li>编码器-解码器架构</li>
+                        <li>逐步降低空间分辨率</li>
+                        <li>感受野线性增长</li>
+                        <li>仅高层能建模长距离依赖</li>
+                        <li>受限于有限的感受野</li>
+                    </ul>
+                </div>
+                <div class="comparison-item transformer-comparison">
+                    <h3>SETR (Transformer方法)</h3>
+                    <ul>
+                        <li>纯Transformer编码器</li>
+                        <li>保持相同空间分辨率</li>
+                        <li>每层都有全局感受野</li>
+                        <li>每层都能建模长距离依赖</li>
+                        <li>完全解决有限感受野挑战</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>实验结果</h2>
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>方法</th>
+                        <th>数据集</th>
+                        <th>预训练</th>
+                        <th>骨干网络</th>
+                        <th>mIoU</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>SETR-MLA</td>
+                        <td>ADE20K</td>
+                        <td>21K</td>
+                        <td>T-Large</td>
+                        <td>48.64%</td>
+                    </tr>
+                    <tr>
+                        <td>SETR-PUP</td>
+                        <td>ADE20K</td>
+                        <td>21K</td>
+                        <td>T-Large</td>
+                        <td>48.58%</td>
+                    </tr>
+                    <tr>
+                        <td>SETR-MLA</td>
+                        <td>Pascal Context</td>
+                        <td>21K</td>
+                        <td>T-Large</td>
+                        <td>54.87%</td>
+                    </tr>
+                    <tr>
+                        <td>SETR-PUP</td>
+                        <td>Pascal Context</td>
+                        <td>21K</td>
+                        <td>T-Large</td>
+                        <td>54.40%</td>
+                    </tr>
+                    <tr>
+                        <td>SETR-PUP</td>
+                        <td>Cityscapes</td>
+                        <td>21K</td>
+                        <td>T-Large</td>
+                        <td>78.39%</td>
+                    </tr>
+                    <tr>
+                        <td>SETR-PUP (MS)</td>
+                        <td>ADE20K</td>
+                        <td>21K</td>
+                        <td>T-Large</td>
+                        <td>50.28%</td>
+                    </tr>
+                    <tr>
+                        <td>SETR-MLA (MS)</td>
+                        <td>Pascal Context</td>
+                        <td>21K</td>
+                        <td>T-Large</td>
+                        <td>55.83%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="section">
+            <h2>数据集表现</h2>
+            <div class="dataset-results">
+                <div class="dataset-card">
+                    <h3>ADE20K</h3>
+                    <div class="result">50.28%</div>
+                    <p>mIoU (多尺度)</p>
+                    <p>测试服务器第一名</p>
+                </div>
+                <div class="dataset-card">
+                    <h3>Pascal Context</h3>
+                    <div class="result">55.83%</div>
+                    <p>mIoU (多尺度)</p>
+                    <p>领先竞争对手</p>
+                </div>
+                <div class="dataset-card">
+                    <h3>Cityscapes</h3>
+                    <div class="result">78.39%</div>
+                    <p>mIoU (单尺度)</p>
+                    <p>具有竞争力的结果</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>结论</h2>
+            <p>在本研究中，我们通过引入序列到序列预测框架为语义分割提供了替代视角。与现有基于FCN的方法
+            通过组件级别使用扩张卷积和注意力模块扩大感受野不同，我们在架构级别进行了根本性改变，
+            完全消除对FCN的依赖，并优雅地解决了有限感受野的挑战。我们用Transformer实现了这一想法，
+            Transformer可以在特征学习的每个阶段对全局上下文进行建模。结合不同复杂度的一组解码器设计，
+            建立了强大的分割模型，而无需使用最近方法部署的任何花哨技术。广泛的实验证明，
+            我们的模型在ADE20K、Pascal Context上树立了新的最佳状态，在Cityscapes上取得了
+            具有竞争力的结果。令人鼓舞的是，我们的方法在提交当天在高度竞争的ADE20K测试服务器
+            排行榜上排名第一。</p>
+        </section>
+
+        <section class="section references">
+            <h2>参考文献</h2>
+            <ul>
+                <li>[1] Vaswani, A., et al. Attention is all you need. In NeurIPS, 2017.</li>
+                <li>[2] Dosovitskiy, A., et al. An image is worth 16x16 words: Transformers for image recognition at scale. In ICLR, 2021.</li>
+                <li>[3] Long, J., et al. Fully convolutional networks for semantic segmentation. In CVPR, 2015.</li>
+                <li>[4] Chen, L.C., et al. Rethinking atrous convolution for semantic image segmentation. arXiv preprint, 2017.</li>
+                <li>[5] Zhao, H., et al. Pyramid scene parsing network. In CVPR, 2017.</li>
+                <li>[6] Huang, Z., et al. CCNet: Criss-cross attention for semantic segmentation. In ICCV, 2019.</li>
+                <li>[7] Chen, L.C., et al. Encoder-decoder with atrous separable convolution for semantic image segmentation. In ECCV, 2018.</li>
+                <li>[8] Yu, F., & Koltun, V. Multi-scale context aggregation by dilated convolutions. ICLR, 2016.</li>
+                <li>[9] Cordts, M., et al. The cityscapes dataset for semantic urban scene understanding. In CVPR, 2016.</li>
+                <li>[10] Zhou, B., et al. Semantic understanding of scenes through the ade20k dataset. arXiv preprint, 2016.</li>
+            </ul>
+        </section>
+    </div>
+</body>
+</html>
