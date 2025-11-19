@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>彩色输入框</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        
+        .colorful-input {
+            width: 300px;
+            padding: 15px;
+            font-size: 16px;
+            border: 3px solid #ff6b6b;
+            border-radius: 12px;
+            outline: none;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .colorful-input::placeholder {
+            color: rgba(255, 255, 255, 0.8);
+            font-style: italic;
+        }
+        
+        .colorful-input:focus {
+            border-color: #51cf66;
+            box-shadow: 0 0 10px rgba(81, 207, 102, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <input type="text" class="colorful-input" placeholder="请输入信息">
+</body>
+</html>
