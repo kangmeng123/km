@@ -8,10 +8,14 @@ const scoreElement = document.getElementById('score-value');
 const livesElement = document.getElementById('lives-value');
 const startBtn = document.getElementById('start-btn');
 const restartBtn = document.getElementById('restart-btn');
+const favoriteBtn = document.getElementById('favorite-btn');
+const favoriteIcon = document.querySelector('.favorite-icon');
+const favoriteText = document.querySelector('.favorite-text');
 
 let gameRunning = false;
 let score = 0;
 let lives = 3;
+let isFavorited = false;
 let player;
 let enemies = [];
 let bullets = [];
@@ -368,3 +372,58 @@ restartBtn.addEventListener('click', () => {
     initGame();
     gameLoop();
 });
+
+// 收藏功能
+function toggleFavorite() {
+    isFavorited = !isFavorited;
+    
+    if (isFavorited) {
+        favoriteBtn.classList.add('favorited');
+        favoriteIcon.textContent = '★';
+        favoriteText.textContent = '已收藏';
+        
+        // 保存到本地存储
+        localStorage.setItem('gameFavorited', 'true');
+        
+        // 添加收藏动画效果
+        favoriteBtn.style.transform = 'scale(1.2)';
+        setTimeout(() => {
+            favoriteBtn.style.transform = 'scale(1)';
+        }, 200);
+    } else {
+        favoriteBtn.classList.remove('favorited');
+        favoriteIcon.textContent = '☆';
+        favoriteText.textContent = '收藏';
+        
+        // 从本地存储移除
+        localStorage.removeItem('gameFavorited');
+    }
+    
+    // 触发自定义事件，便于后续扩展
+    const favoriteEvent = new CustomEvent('favoriteChanged', {
+        detail: { isFavorited: isFavorited }
+    });
+    document.dispatchEvent(favoriteEvent);
+}
+
+// 检查是否已收藏
+function checkFavoriteStatus() {
+    const storedFavorite = localStorage.getItem('gameFavorited');
+    if (storedFavorite === 'true') {
+        isFavorited = true;
+        favoriteBtn.classList.add('favorited');
+        favoriteIcon.textContent = '★';
+        favoriteText.textContent = '已收藏';
+    } else {
+        isFavorited = false;
+        favoriteBtn.classList.remove('favorited');
+        favoriteIcon.textContent = '☆';
+        favoriteText.textContent = '收藏';
+    }
+}
+
+// 添加收藏按钮事件监听
+favoriteBtn.addEventListener('click', toggleFavorite);
+
+// 页面加载时检查收藏状态
+window.addEventListener('load', checkFavoriteStatus);

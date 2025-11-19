@@ -47,6 +47,47 @@ body {
     right: 20px;
 }
 
+#favorite-container {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.favorite-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 28px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #666;
+    transition: all 0.3s ease;
+    pointer-events: auto;
+}
+
+.favorite-btn.favorited .favorite-icon {
+    color: #ff4757;
+}
+
+.favorite-btn.favorited .favorite-text {
+    color: #ff4757;
+}
+
+.favorite-icon {
+    font-size: 32px;
+    transition: all 0.3s ease;
+}
+
+.favorite-text {
+    font-size: 14px;
+    margin-top: 5px;
+    color: #666;
+    transition: all 0.3s ease;
+}
+
 #game-over, #start-screen {
     position: absolute;
     top: 50%;
