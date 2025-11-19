@@ -1,370 +1,131 @@
-// 游戏变量
-const canvas = document.getElementById('game-canvas');
-const ctx = canvas.getContext('2d');
-const startScreen = document.getElementById('start-screen');
-const gameOverScreen = document.getElementById('game-over');
-const finalScoreElement = document.getElementById('final-score');
-const scoreElement = document.getElementById('score-value');
-const livesElement = document.getElementById('lives-value');
-const startBtn = document.getElementById('start-btn');
-const restartBtn = document.getElementById('restart-btn');
+// 现代圣诞主题交互功能
 
-let gameRunning = false;
-let score = 0;
-let lives = 3;
-let player;
-let enemies = [];
-let bullets = [];
-let enemySpawnTimer = 0;
-let keys = {};
+// 雪花动画控制
+const snowflakes = document.querySelectorAll('.snowflake');
+let snowAnimation = true;
 
-// 玩家飞机类
-class Player {
-    constructor() {
-        this.width = 50;
-        this.height = 40;
-        this.x = canvas.width / 2 - this.width / 2;
-        this.y = canvas.height - this.height - 20;
-        this.speed = 6;
-        this.color = '#0ff';
-    }
-
-    update() {
-        // 处理键盘输入
-        if (keys['ArrowLeft'] && this.x > 0) {
-            this.x -= this.speed;
-        }
-        if (keys['ArrowRight'] && this.x < canvas.width - this.width) {
-            this.x += this.speed;
-        }
-        if (keys['ArrowUp'] && this.y > 0) {
-            this.y -= this.speed;
-        }
-        if (keys['ArrowDown'] && this.y < canvas.height - this.height) {
-            this.y += this.speed;
-        }
-    }
-
-    draw() {
-        // 绘制赛博朋克风格的飞机
-        ctx.fillStyle = this.color;
-        ctx.beginPath();
-        ctx.moveTo(this.x + this.width / 2, this.y);
-        ctx.lineTo(this.x + this.width, this.y + this.height);
-        ctx.lineTo(this.x, this.y + this.height);
-        ctx.closePath();
-        ctx.fill();
+// 点击摆件动画
+const figurines = document.querySelectorAll('.figurine');
+figurines.forEach(figurine => {
+    figurine.addEventListener('click', () => {
+        // 暂停原始浮动动画
+        figurine.style.animation = 'none';
         
-        // 添加霓虹效果
-        ctx.strokeStyle = '#f0f';
-        ctx.lineWidth = 2;
-        ctx.stroke();
+        // 执行点击动画
+        figurine.style.transform = 'translateY(-20px) scale(1.05)';
+        figurine.style.transition = 'transform 0.3s ease';
         
-        // 绘制驾驶舱
-        ctx.fillStyle = '#00f';
-        ctx.beginPath();
-        ctx.arc(this.x + this.width / 2, this.y + 15, 8, 0, Math.PI * 2);
-        ctx.fill();
-    }
-}
+        setTimeout(() => {
+            figurine.style.transform = '';
+            // 恢复原始动画
+            figurine.style.animation = '';
+        }, 300);
+    });
+});
 
-// 敌机类
-class Enemy {
-    constructor() {
-        this.width = 40;
-        this.height = 30;
-        this.x = Math.random() * (canvas.width - this.width);
-        this.y = -this.height;
-        this.speed = 2 + Math.random() * 3;
-        this.color = '#f0f';
-    }
-
-    update() {
-        this.y += this.speed;
-    }
-
-    draw() {
-        // 绘制赛博朋克风格的敌机
-        ctx.fillStyle = this.color;
-        ctx.beginPath();
-        ctx.moveTo(this.x, this.y);
-        ctx.lineTo(this.x + this.width, this.y);
-        ctx.lineTo(this.x + this.width / 2, this.y + this.height);
-        ctx.closePath();
-        ctx.fill();
-        
-        // 添加霓虹效果
-        ctx.strokeStyle = '#0ff';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-        
-        // 绘制驾驶舱
-        ctx.fillStyle = '#f00';
-        ctx.beginPath();
-        ctx.arc(this.x + this.width / 2, this.y + 10, 6, 0, Math.PI * 2);
-        ctx.fill();
-    }
-}
-
-// 初始化游戏
-function initGame() {
-    player = new Player();
-    enemies = [];
-    bullets = [];
-    score = 0;
-    lives = 3;
-    updateUI();
-}
-
-// 检测碰撞
-function checkCollision(obj1, obj2) {
-    return obj1.x < obj2.x + obj2.width &&
-           obj1.x + obj1.width > obj2.x &&
-           obj1.y < obj2.y + obj2.height &&
-           obj1.y + obj1.height > obj2.y;
-}
-
-// 更新游戏对象
-function updateGameObjects() {
-    // 更新玩家
-    player.update();
+// 鼠标悬停效果
+figurines.forEach(figurine => {
+    figurine.addEventListener('mouseenter', () => {
+        figurine.style.filter = 'brightness(1.2)';
+    });
     
-    // 更新子弹
-    for (let i = bullets.length - 1; i >= 0; i--) {
-        bullets[i].update();
+    figurine.addEventListener('mouseleave', () => {
+        figurine.style.filter = 'brightness(1)';
+    });
+});
+
+// 点击礼物盒动画
+const giftBoxes = document.querySelectorAll('.gift-box');
+giftBoxes.forEach(box => {
+    box.addEventListener('click', () => {
+        box.style.transform = 'translateY(-10px) scale(1.1)';
+        box.style.transition = 'transform 0.2s ease';
         
-        // 移除超出屏幕的子弹
-        if (bullets[i].y < 0) {
-            bullets.splice(i, 1);
-            continue;
-        }
+        setTimeout(() => {
+            box.style.transform = '';
+        }, 200);
+    });
+});
+
+// 点击背景山动画
+const mountain = document.querySelector('.mountain');
+if (mountain) {
+    mountain.addEventListener('click', () => {
+        mountain.style.transform = 'translateY(-10px)';
+        mountain.style.transition = 'transform 0.3s ease';
         
-        // 检测子弹与敌机的碰撞
-        for (let j = enemies.length - 1; j >= 0; j--) {
-            if (checkCollision(bullets[i], enemies[j])) {
-                // 移除子弹和敌机
-                bullets.splice(i, 1);
-                enemies.splice(j, 1);
-                score += 10;
-                updateUI();
-                
-                // 添加爆炸粒子效果
-                addParticle(enemies[j].x + enemies[j].width/2, enemies[j].y + enemies[j].height/2, '#f0f', 10);
-                break;
-            }
-        }
-    }
-    
-    // 更新敌机
-    for (let i = enemies.length - 1; i >= 0; i--) {
-        enemies[i].update();
-        
-        // 检测敌机与玩家的碰撞
-        if (checkCollision(player, enemies[i])) {
-            // 添加碰撞粒子效果
-            addParticle(player.x + player.width/2, player.y + player.height/2, '#0ff', 15);
-            
-            enemies.splice(i, 1);
-            lives--;
-            updateUI();
-            
-            if (lives <= 0) {
-                gameOver();
-            }
-            continue;
-        }
-        
-        // 检测敌机是否到达底部
-        if (enemies[i].y > canvas.height) {
-            enemies.splice(i, 1);
-            lives--;
-            updateUI();
-            
-            if (lives <= 0) {
-                gameOver();
-            }
-        }
-    }
-    
-    // 生成新敌机
-    enemySpawnTimer++;
-    if (enemySpawnTimer > 60) { // 每60帧生成一个敌机
-        enemies.push(new Enemy());
-        enemySpawnTimer = 0;
-    }
+        setTimeout(() => {
+            mountain.style.transform = '';
+        }, 300);
+    });
 }
 
-// 更新UI
-function updateUI() {
-    scoreElement.textContent = score;
-    livesElement.textContent = lives;
-}
-
-// 子弹类
-class Bullet {
-    constructor(x, y) {
-        this.width = 5;
-        this.height = 15;
-        this.x = x;
-        this.y = y;
-        this.speed = 10;
-        this.color = '#0f0';
-    }
-
-    update() {
-        this.y -= this.speed;
-    }
-
-    draw() {
-        ctx.fillStyle = this.color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
-        
-        // 添加霓虹效果
-        ctx.strokeStyle = '#0ff';
-        ctx.lineWidth = 1;
-        ctx.strokeRect(this.x, this.y, this.width, this.height);
-    }
-}
-
-// 键盘事件监听
-window.addEventListener('keydown', (e) => {
-    keys[e.key] = true;
+// 鼠标移动时的视差效果
+document.addEventListener('mousemove', (e) => {
+    const mouseX = e.clientX / window.innerWidth;
+    const mouseY = e.clientY / window.innerHeight;
     
-    // 空格键发射子弹
-    if (e.key === ' ' && gameRunning) {
-        bullets.push(new Bullet(player.x + player.width / 2 - 2.5, player.y));
+    // 为摆件添加轻微的视差效果
+    figurines.forEach((figurine, index) => {
+        const speed = (index + 1) * 0.02;
+        const x = (mouseX - 0.5) * speed * 20;
+        const y = (mouseY - 0.5) * speed * 10;
+        figurine.style.transform = `translate(${x}px, ${y}px)`;
+    });
+    
+    // 为背景元素添加视差效果
+    const winterScene = document.querySelector('.winter-scene');
+    if (winterScene) {
+        const x = (mouseX - 0.5) * 5;
+        const y = (mouseY - 0.5) * 3;
+        winterScene.style.transform = `translate(${x}px, ${y}px)`;
     }
 });
 
-window.addEventListener('keyup', (e) => {
-    keys[e.key] = false;
+// 节日灯光闪烁效果
+const lights = document.querySelectorAll('.light');
+setInterval(() => {
+    lights.forEach(light => {
+        const colors = ['#fdcb6e', '#e17055', '#00b894', '#74b9ff', '#fd79a8'];
+        light.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    });
+}, 2000);
+
+// 随机改变雪花颜色
+setInterval(() => {
+    snowflakes.forEach(snowflake => {
+        const opacity = 0.6 + Math.random() * 0.4;
+        snowflake.style.opacity = opacity;
+    });
+}, 5000);
+
+// 窗口大小变化时重新调整
+window.addEventListener('resize', () => {
+    // 可以在这里添加响应式调整逻辑
+    console.log('窗口大小已调整');
 });
 
-// 游戏循环
-function gameLoop() {
-    if (!gameRunning) return;
+// 页面加载完成动画
+window.addEventListener('load', () => {
+    // 为整个容器添加淡入效果
+    document.querySelector('.container').style.opacity = '0';
+    document.querySelector('.container').style.transition = 'opacity 1s ease-in-out';
     
-    // 清除画布
-    ctx.fillStyle = '#000';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    setTimeout(() => {
+        document.querySelector('.container').style.opacity = '1';
+    }, 100);
     
-    // 绘制背景效果
-    drawBackground();
-    
-    // 绘制粒子效果
-    drawParticles();
-    
-    // 更新游戏对象
-    updateGameObjects();
-    
-    // 绘制玩家
-    player.draw();
-    
-    // 绘制子弹
-    for (let bullet of bullets) {
-        bullet.draw();
-    }
-    
-    // 绘制敌机
-    for (let enemy of enemies) {
-        enemy.draw();
-    }
-    
-    // 继续游戏循环
-    requestAnimationFrame(gameLoop);
-}
-
-// 绘制背景效果
-function drawBackground() {
-    // 绘制网格线
-    ctx.strokeStyle = 'rgba(0, 255, 255, 0.1)';
-    ctx.lineWidth = 1;
-    
-    // 垂直线
-    for (let x = 0; x < canvas.width; x += 40) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, canvas.height);
-        ctx.stroke();
-    }
-    
-    // 水平线
-    for (let y = 0; y < canvas.height; y += 40) {
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(canvas.width, y);
-        ctx.stroke();
-    }
-}
-
-// 粒子系统
-const particles = [];
-
-class Particle {
-    constructor(x, y, color) {
-        this.x = x;
-        this.y = y;
-        this.size = Math.random() * 3 + 1;
-        this.speedX = Math.random() * 3 - 1.5;
-        this.speedY = Math.random() * 3 - 1.5;
-        this.color = color;
-        this.life = 30;
-    }
-    
-    update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        this.life--;
-    }
-    
-    draw() {
-        ctx.globalAlpha = this.life / 30;
-        ctx.fillStyle = this.color;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.globalAlpha = 1;
-    }
-}
-
-// 添加粒子
-function addParticle(x, y, color, count) {
-    for (let i = 0; i < count; i++) {
-        particles.push(new Particle(x, y, color));
-    }
-}
-
-// 绘制粒子
-function drawParticles() {
-    for (let i = particles.length - 1; i >= 0; i--) {
-        particles[i].update();
-        particles[i].draw();
-        
-        if (particles[i].life <= 0) {
-            particles.splice(i, 1);
-        }
-    }
-}
-
-// 游戏结束
-function gameOver() {
-    gameRunning = false;
-    finalScoreElement.textContent = score;
-    gameOverScreen.classList.remove('hidden');
-}
-
-// 开始游戏
-startBtn.addEventListener('click', () => {
-    startScreen.classList.add('hidden');
-    gameRunning = true;
-    initGame();
-    gameLoop();
-});
-
-// 重新开始游戏
-restartBtn.addEventListener('click', () => {
-    gameOverScreen.classList.add('hidden');
-    gameRunning = true;
-    initGame();
-    gameLoop();
+    // 为摆件添加延迟进入动画
+    setTimeout(() => {
+        figurines.forEach((figurine, index) => {
+            figurine.style.opacity = '0';
+            figurine.style.transform = 'translateY(20px)';
+            figurine.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            
+            setTimeout(() => {
+                figurine.style.opacity = '1';
+                figurine.style.transform = 'translateY(0)';
+            }, 300 + index * 200);
+        });
+    }, 500);
 });

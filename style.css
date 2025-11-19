@@ -1,98 +1,746 @@
-body {
+/* 现代化圣诞主题样式 */
+* {
     margin: 0;
     padding: 0;
-    background-color: #000;
-    color: #0f0;
-    font-family: 'Courier New', monospace;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #a8edea, #fed6e3);
+    min-height: 100vh;
+    color: #333;
+    overflow-x: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    overflow: hidden;
 }
 
-#game-container {
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 头部样式 */
+.header {
+    text-align: center;
+    padding: 30px 0;
     position: relative;
-    border: 2px solid #0ff;
-    box-shadow: 0 0 20px #0ff, inset 0 0 10px #0ff;
+    margin-bottom: 30px;
 }
 
-#game-canvas {
-    background-color: #000;
-    display: block;
+.header h1 {
+    font-size: 2.5rem;
+    color: #5d3e7c;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-#ui {
+/* 雪花容器 */
+.snowflakes-container {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     pointer-events: none;
+    z-index: 1;
 }
 
-#score, #lives {
+.snowflake {
     position: absolute;
+    color: #fff;
+    font-size: 1.8rem;
+    animation: fall linear infinite;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+}
+
+.snowflake:nth-child(1) {
+    left: 10%;
+    animation-duration: 8s;
+    top: -30px;
+}
+
+.snowflake:nth-child(2) {
+    left: 30%;
+    animation-duration: 10s;
+    top: -30px;
+    animation-delay: 1s;
+}
+
+.snowflake:nth-child(3) {
+    left: 50%;
+    animation-duration: 7s;
+    top: -30px;
+    animation-delay: 2s;
+}
+
+.snowflake:nth-child(4) {
+    left: 70%;
+    animation-duration: 9s;
+    top: -30px;
+    animation-delay: 0.5s;
+}
+
+.snowflake:nth-child(5) {
+    left: 90%;
+    animation-duration: 8s;
+    top: -30px;
+    animation-delay: 1.5s;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-20px) rotate(0deg);
+    }
+    100% {
+        transform: translateY(105vh) rotate(360deg);
+    }
+}
+
+/* 主内容区 */
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    margin-bottom: 40px;
+}
+
+.display-desk {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 显示器框架 */
+.monitor-frame {
+    position: relative;
+    margin-bottom: 50px;
+    width: 500px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.monitor-screen {
+    width: 100%;
+    height: 250px;
+    background: linear-gradient(135deg, #74b9ff, #0984e3);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border: 8px solid #636e72;
+}
+
+.winter-scene {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.mountain {
+    position: absolute;
+    width: 200px;
+    height: 150px;
+    background: linear-gradient(to top, #b2bec3, #ddd);
+    clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+    bottom: 50px;
+    left: 50px;
+    z-index: 2;
+}
+
+.cabin {
+    position: absolute;
+    width: 80px;
+    height: 60px;
+    background: #fd79a8;
+    bottom: 50px;
+    left: 180px;
+    z-index: 3;
+    border-radius: 5px 5px 0 0;
+}
+
+.cabin::before {
+    content: '';
+    position: absolute;
+    width: 100px;
+    height: 30px;
+    background: #fdcb6e;
+    top: -20px;
+    left: -10px;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.cabin::after {
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: #e17055;
+    border-radius: 50%;
     top: 20px;
-    font-size: 24px;
-    text-shadow: 0 0 10px #0ff;
-    color: #0ff;
-}
-
-#score {
     left: 20px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
-#lives {
-    right: 20px;
+.trees {
+    position: absolute;
+    bottom: 50px;
+    right: 80px;
+    z-index: 1;
 }
 
-#game-over, #start-screen {
+.trees::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 60px solid #00b894;
+    bottom: 0;
+}
+
+.trees::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 45px solid #00cec9;
+    bottom: 30px;
+    left: 5px;
+}
+
+.monitor-logo {
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #2d3436;
+    z-index: 4;
+}
+
+.monitor-stand {
+    width: 150px;
+    height: 20px;
+    background: #636e72;
+    margin-top: -10px;
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* 摆件组合 */
+.figurines-group {
+    display: flex;
+    gap: 100px;
+    margin-bottom: 80px;
+    position: relative;
+    z-index: 10;
+}
+
+/* 摆件基本样式 */
+.figurine {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 北极熊摆件 */
+.polar-bear {
+    animation: float 4s ease-in-out infinite;
+}
+
+.bear-body {
+    position: relative;
+}
+
+.bear-head {
+    width: 100px;
+    height: 90px;
+    background: #f5f6fa;
+    border-radius: 50% 50% 40% 40%;
+    position: relative;
+    margin-bottom: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.bear-ears {
+    position: absolute;
+    top: -10px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 15px;
+}
+
+.ear {
+    width: 25px;
+    height: 25px;
+    background: #dfe6e9;
+    border-radius: 50%;
+}
+
+.bear-face {
+    position: relative;
+    height: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.bear-eyes {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 10px;
+}
+
+.eye {
+    width: 10px;
+    height: 10px;
+    background: #2d3436;
+    border-radius: 50%;
+}
+
+.bear-nose {
+    width: 15px;
+    height: 10px;
+    background: #636e72;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.bear-mouth {
+    width: 25px;
+    height: 8px;
+    border-bottom: 2px solid #2d3436;
+    border-radius: 0 0 50% 50%;
+}
+
+.bear-body-main {
+    width: 120px;
+    height: 120px;
+    background: #f5f6fa;
+    border-radius: 50%;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.bear-arms {
+    position: absolute;
+    width: 100%;
+    top: 30px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 5px;
+}
+
+.arm {
+    width: 20px;
+    height: 50px;
+    background: #f5f6fa;
+    border-radius: 10px;
+}
+
+.bear-legs {
+    position: absolute;
+    width: 100%;
+    bottom: -15px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+.leg {
+    width: 25px;
+    height: 30px;
+    background: #dfe6e9;
+    border-radius: 10px 10px 0 0;
+}
+
+.bear-base {
+    width: 140px;
+    height: 20px;
+    background: #dfe6e9;
+    border-radius: 50%;
+    margin-top: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.bear-hat {
+    position: absolute;
+    top: -30px;
+    width: 110px;
+    height: 40px;
+    background: #e17055;
+    border-radius: 50% 50% 0 0;
+    display: flex;
+    justify-content: center;
+}
+
+.hat-band {
+    width: 100%;
+    height: 10px;
+    background: #d63031;
+    position: absolute;
+    bottom: 0;
+    border-radius: 0 0 50% 50%;
+}
+
+.hat-pom {
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: -10px;
+    right: -30px;
+}
+
+/* 企鹅摆件 */
+.penguin {
+    animation: float 4s ease-in-out infinite;
+    animation-delay: 0.5s;
+}
+
+.penguin-body {
+    position: relative;
+}
+
+.penguin-head {
+    width: 80px;
+    height: 70px;
+    background: #2d3436;
+    border-radius: 50% 50% 40% 40%;
+    position: relative;
+    margin-bottom: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.penguin-eyes {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+    justify-content: center;
+}
+
+.penguin-eye {
+    width: 8px;
+    height: 8px;
+    background: #fff;
+    border-radius: 50%;
+}
+
+.penguin-beak {
+    position: absolute;
+    width: 15px;
+    height: 8px;
+    background: #fdcb6e;
+    border-radius: 50%;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.penguin-hat {
+    position: absolute;
+    top: -20px;
+    width: 90px;
+    height: 30px;
+    background: #00b894;
+    border-radius: 50% 50% 0 0;
+    display: flex;
+    justify-content: center;
+}
+
+.penguin-hat .hat-band {
+    width: 100%;
+    height: 8px;
+    background: #00a085;
+}
+
+.penguin-hat .hat-pom {
+    width: 15px;
+    height: 15px;
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: -8px;
+    right: -25px;
+}
+
+.penguin-torso {
+    width: 100px;
+    height: 110px;
+    background: #2d3436;
+    border-radius: 50%;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.penguin-wings {
+    position: absolute;
+    width: 100%;
+    top: 30px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 5px;
+}
+
+.wing {
+    width: 20px;
+    height: 50px;
+    background: #2d3436;
+    border-radius: 10px;
+}
+
+.penguin-feet {
+    position: absolute;
+    width: 100%;
+    bottom: -15px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 25px;
+}
+
+.foot {
+    width: 20px;
+    height: 20px;
+    background: #fdcb6e;
+    border-radius: 50%;
+}
+
+.penguin-base {
+    width: 120px;
+    height: 20px;
+    background: #dfe6e9;
+    border-radius: 50%;
+    margin-top: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 装饰元素 */
+.decorations {
+    display: flex;
+    gap: 30px;
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+}
+
+.gift-box {
+    position: relative;
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.gift-box.small {
+    width: 40px;
+    height: 40px;
+}
+
+.gift-box.medium {
+    width: 50px;
+    height: 50px;
+}
+
+.gift-box.large {
+    width: 60px;
+    height: 60px;
+}
+
+.box-wrap {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    background: linear-gradient(135deg, #fd79a8, #fdcb6e);
+}
+
+.box-wrap::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 100%;
+    background: #e17055;
+}
+
+.box-wrap::after {
+    content: '';
     position: absolute;
     top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 100%;
+    height: 6px;
+    background: #e17055;
+}
+
+.bow {
+    position: absolute;
+    top: -10px;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
+    width: 20px;
+    height: 20px;
+    background: #e17055;
+    border-radius: 50%;
+}
+
+.bow::before,
+.bow::after {
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border: 3px solid #e17055;
+    border-radius: 50%;
+}
+
+.bow::before {
+    top: -10px;
+    left: -10px;
+}
+
+.bow::after {
+    top: -10px;
+    right: -10px;
+}
+
+/* 页脚 */
+.footer {
     text-align: center;
-    background-color: rgba(0, 0, 0, 0.8);
-    border: 2px solid #f0f;
-    box-shadow: 0 0 20px #f0f, inset 0 0 10px #f0f;
     padding: 30px;
-    pointer-events: auto;
-}
-
-#game-over.hidden, #start-screen.hidden {
-    display: none;
-}
-
-#game-over h2, #start-screen h1 {
-    color: #f0f;
-    text-shadow: 0 0 10px #f0f;
-    margin-top: 0;
-}
-
-#game-over p {
-    font-size: 20px;
-    color: #0ff;
-}
-
-button {
-    background-color: #000;
-    color: #0f0;
-    border: 2px solid #0f0;
-    box-shadow: 0 0 10px #0f0;
-    padding: 10px 20px;
-    font-size: 18px;
-    font-family: 'Courier New', monospace;
-    cursor: pointer;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
 }
 
-button:hover {
-    background-color: #0f0;
-    color: #000;
-    box-shadow: 0 0 15px #0f0;
+.lights {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 15px;
 }
 
-.hidden {
-    display: none;
+.light {
+    width: 15px;
+    height: 15px;
+    background: #fdcb6e;
+    border-radius: 50%;
+    animation: twinkle 1.5s infinite;
+}
+
+.light:nth-child(2) {
+    animation-delay: 0.2s;
+    background: #e17055;
+}
+
+.light:nth-child(3) {
+    animation-delay: 0.4s;
+    background: #00b894;
+}
+
+.light:nth-child(4) {
+    animation-delay: 0.6s;
+    background: #74b9ff;
+}
+
+.light:nth-child(5) {
+    animation-delay: 0.8s;
+    background: #fd79a8;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.2); }
+}
+
+.footer p {
+    font-size: 1.2rem;
+    color: #5d3e7c;
+    margin: 0;
+}
+
+/* 动画效果 */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .header h1 {
+        font-size: 2rem;
+    }
+    
+    .monitor-frame {
+        width: 350px;
+        height: 220px;
+    }
+    
+    .monitor-screen {
+        height: 180px;
+    }
+    
+    .figurines-group {
+        gap: 50px;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .bear-head {
+        width: 80px;
+        height: 70px;
+    }
+    
+    .bear-body-main {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .penguin-head {
+        width: 70px;
+        height: 60px;
+    }
+    
+    .penguin-torso {
+        width: 90px;
+        height: 100px;
+    }
+    
+    .decorations {
+        position: relative;
+        bottom: 0;
+        transform: none;
+        margin-top: 40px;
+        justify-content: center;
+    }
 }

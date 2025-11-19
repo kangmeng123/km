@@ -1,29 +1,132 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>赛博朋克飞机大战</title>
+    <title>现代圣诞主题 - 温馨摆件</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="game-container">
-        <canvas id="game-canvas" width="800" height="600"></canvas>
-        <div id="ui">
-            <div id="score">得分: <span id="score-value">0</span></div>
-            <div id="lives">生命: <span id="lives-value">3</span></div>
-            <div id="game-over" class="hidden">
-                <h2>游戏结束</h2>
-                <p>最终得分: <span id="final-score">0</span></p>
-                <button id="restart-btn">重新开始</button>
+    <div class="container">
+        <header class="header">
+            <h1>✨ 欢迎来到现代圣诞 ✨</h1>
+            <div class="snowflakes-container">
+                <div class="snowflake">❅</div>
+                <div class="snowflake">❆</div>
+                <div class="snowflake">❄</div>
+                <div class="snowflake">❅</div>
+                <div class="snowflake">❆</div>
             </div>
-            <div id="start-screen">
-                <h1>赛博朋克飞机大战</h1>
-                <p>使用方向键移动，空格键发射子弹</p>
-                <button id="start-btn">开始游戏</button>
+        </header>
+        
+        <main class="main">
+            <div class="display-desk">
+                <div class="monitor-frame">
+                    <div class="monitor-screen">
+                        <div class="winter-scene">
+                            <div class="mountain"></div>
+                            <div class="cabin"></div>
+                            <div class="trees"></div>
+                        </div>
+                    </div>
+                    <div class="monitor-logo">modern</div>
+                    <div class="monitor-stand"></div>
+                </div>
+                
+                <div class="figurines-group">
+                    <!-- 北极熊摆件 -->
+                    <div class="figurine polar-bear">
+                        <div class="bear-body">
+                            <div class="bear-head">
+                                <div class="bear-ears">
+                                    <div class="ear left"></div>
+                                    <div class="ear right"></div>
+                                </div>
+                                <div class="bear-face">
+                                    <div class="bear-eyes">
+                                        <div class="eye left"></div>
+                                        <div class="eye right"></div>
+                                    </div>
+                                    <div class="bear-nose"></div>
+                                    <div class="bear-mouth"></div>
+                                </div>
+                            </div>
+                            <div class="bear-body-main">
+                                <div class="bear-arms">
+                                    <div class="arm left"></div>
+                                    <div class="arm right"></div>
+                                </div>
+                                <div class="bear-legs">
+                                    <div class="leg left"></div>
+                                    <div class="leg right"></div>
+                                </div>
+                            </div>
+                            <div class="bear-base"></div>
+                        </div>
+                        <div class="bear-hat">
+                            <div class="hat-band"></div>
+                            <div class="hat-pom"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- 企鹅摆件 -->
+                    <div class="figurine penguin">
+                        <div class="penguin-body">
+                            <div class="penguin-head">
+                                <div class="penguin-eyes">
+                                    <div class="eye left"></div>
+                                    <div class="eye right"></div>
+                                </div>
+                                <div class="penguin-beak"></div>
+                                <div class="penguin-hat">
+                                    <div class="hat-band"></div>
+                                    <div class="hat-pom"></div>
+                                </div>
+                            </div>
+                            <div class="penguin-torso">
+                                <div class="penguin-wings">
+                                    <div class="wing left"></div>
+                                    <div class="wing right"></div>
+                                </div>
+                                <div class="penguin-feet">
+                                    <div class="foot left"></div>
+                                    <div class="foot right"></div>
+                                </div>
+                            </div>
+                            <div class="penguin-base"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="decorations">
+                    <div class="gift-box small">
+                        <div class="box-wrap"></div>
+                        <div class="bow"></div>
+                    </div>
+                    <div class="gift-box medium">
+                        <div class="box-wrap"></div>
+                        <div class="bow"></div>
+                    </div>
+                    <div class="gift-box large">
+                        <div class="box-wrap"></div>
+                        <div class="bow"></div>
+                    </div>
+                </div>
             </div>
-        </div>
+        </main>
+        
+        <footer class="footer">
+            <div class="lights">
+                <div class="light"></div>
+                <div class="light"></div>
+                <div class="light"></div>
+                <div class="light"></div>
+                <div class="light"></div>
+            </div>
+            <p>🎁 现代圣诞，温馨时光 🎁</p>
+        </footer>
     </div>
+    
     <script src="script.js"></script>
 </body>
 </html>
