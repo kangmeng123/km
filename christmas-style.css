@@ -1,0 +1,583 @@
+/* 圣诞主题样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #1a5f23, #0d3b1e);
+    min-height: 100vh;
+    color: white;
+    overflow-x: hidden;
+}
+
+/* 雪花动画 */
+.snow-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.snowflake {
+    position: absolute;
+    color: #fff;
+    font-size: 1.5rem;
+    animation: fall linear infinite;
+}
+
+.snowflake:nth-child(1) {
+    left: 10%;
+    animation-duration: 8s;
+    top: -20px;
+}
+
+.snowflake:nth-child(2) {
+    left: 25%;
+    animation-duration: 10s;
+    top: -20px;
+}
+
+.snowflake:nth-child(3) {
+    left: 50%;
+    animation-duration: 7s;
+    top: -20px;
+}
+
+.snowflake:nth-child(4) {
+    left: 75%;
+    animation-duration: 9s;
+    top: -20px;
+}
+
+.snowflake:nth-child(5) {
+    left: 90%;
+    animation-duration: 8s;
+    top: -20px;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-20px) rotate(0deg);
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+    }
+}
+
+/* 圣诞节头部装饰 */
+.christmas-header {
+    text-align: center;
+    padding: 2rem 0;
+    position: relative;
+    background: rgba(139, 0, 0, 0.3);
+    border-bottom: 4px solid #ffd700;
+}
+
+.christmas-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 5px #fff, 0 0 10px #ff4d4d, 0 0 15px #ff4d4d;
+    }
+    to {
+        text-shadow: 0 0 10px #fff, 0 0 20px #ff4d4d, 0 0 30px #ff4d4d;
+    }
+}
+
+/* 圣诞灯串 */
+.christmas-lights {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.light {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    animation: blink 1.5s infinite;
+}
+
+.light:nth-child(2n) {
+    animation-delay: 0.75s;
+}
+
+.red { background-color: #ff4d4d; }
+.green { background-color: #4dff4d; }
+.blue { background-color: #4d4dff; }
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+/* 主要内容区域 */
+.main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+    padding: 2rem;
+}
+
+.display-area {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 显示器样式 */
+.monitor {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.monitor-frame {
+    width: 400px;
+    height: 250px;
+    background: linear-gradient(145deg, #c0c0c0, #a0a0a0);
+    border: 8px solid #808080;
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.hp-logo {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.5rem;
+    font-style: italic;
+    font-weight: bold;
+    color: #000;
+}
+
+.screen-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.landscape-blur {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #2e8b57, #8fbc8f, #556b2f);
+    filter: blur(3px);
+    opacity: 0.7;
+}
+
+.monitor-stand {
+    width: 120px;
+    height: 20px;
+    background: #666;
+    margin: 0 auto;
+    border-radius: 4px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* 摆件容器 */
+.figurines-container {
+    display: flex;
+    gap: 4rem;
+    margin-bottom: 3rem;
+    position: relative;
+    z-index: 10;
+}
+
+/* 驯鹿摆件样式 */
+.figurine {
+    position: relative;
+}
+
+.deer {
+    animation: float 3s ease-in-out infinite;
+}
+
+.deer-body {
+    position: relative;
+}
+
+.deer-head {
+    width: 80px;
+    height: 70px;
+    background: #ff8099;
+    border-radius: 50% 50% 40% 40%;
+    position: relative;
+    margin: 0 auto 10px;
+}
+
+.deer-eyes {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #000;
+    border-radius: 50%;
+    top: 25px;
+    left: 20px;
+}
+
+.deer-eyes + .deer-eyes {
+    left: auto;
+    right: 20px;
+}
+
+.deer-nose {
+    position: absolute;
+    width: 15px;
+    height: 10px;
+    background: #8B4513;
+    border-radius: 50%;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.deer-antlers {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 20px;
+}
+
+.deer-antlers::before,
+.deer-antlers::after {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 8px;
+    background: #8B4513;
+    border-radius: 4px;
+}
+
+.deer-antlers::before {
+    top: 0;
+    left: 0;
+    transform: rotate(-20deg);
+}
+
+.deer-antlers::after {
+    top: 0;
+    right: 0;
+    transform: rotate(20deg);
+}
+
+.deer-body-main {
+    width: 100px;
+    height: 90px;
+    background: #ff8099;
+    border-radius: 50%;
+    position: relative;
+    margin: 0 auto;
+}
+
+.deer-paws {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 20px;
+    background: #ff8099;
+    border-radius: 50%;
+}
+
+.deer-base {
+    width: 120px;
+    height: 20px;
+    background: #ff8099;
+    border-radius: 50%;
+    margin: 10px auto 0;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* 雪人摆件样式 */
+.snowman {
+    animation: float 3s ease-in-out infinite;
+    animation-delay: 0.5s;
+}
+
+.snowman-body {
+    position: relative;
+}
+
+.snowman-hat {
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px;
+    height: 25px;
+    background: #d32f2f;
+    border-radius: 5px 5px 0 0;
+}
+
+.hat-pom {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 15px;
+    height: 15px;
+    background: #fff;
+    border-radius: 50%;
+}
+
+.snowman-head {
+    width: 70px;
+    height: 60px;
+    background: #fff;
+    border-radius: 50%;
+    position: relative;
+    margin: 0 auto 10px;
+}
+
+.snowman-eyes {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #000;
+    border-radius: 50%;
+    top: 20px;
+    left: 15px;
+}
+
+.snowman-eyes + .snowman-eyes {
+    left: auto;
+    right: 15px;
+}
+
+.snowman-nose {
+    position: absolute;
+    width: 10px;
+    height: 15px;
+    background: #ff8c00;
+    border-radius: 50%;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.snowman-mouth {
+    position: absolute;
+    width: 20px;
+    height: 8px;
+    border-bottom: 2px solid #000;
+    border-radius: 0 0 50% 50%;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.snowman-torso {
+    width: 80px;
+    height: 70px;
+    background: #fff;
+    border-radius: 50%;
+    position: relative;
+    margin: 0 auto;
+}
+
+.snowman-buttons {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #000;
+    border-radius: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.snowman-buttons:nth-child(1) { top: 15px; }
+.snowman-buttons:nth-child(2) { top: 30px; }
+.snowman-buttons:nth-child(3) { top: 45px; }
+
+.snowman-base {
+    width: 90px;
+    height: 80px;
+    background: #fff;
+    border-radius: 50%;
+    margin: 10px auto 0;
+}
+
+.snowman-base-stand {
+    width: 110px;
+    height: 20px;
+    background: #d32f2f;
+    border-radius: 50%;
+    margin: 10px auto 0;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* 贴纸样式 */
+.sticker {
+    position: absolute;
+    left: 50px;
+    bottom: 50px;
+    width: 100px;
+    height: 100px;
+    z-index: 5;
+}
+
+.sticker-content {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #ffd700, #ff8c00);
+    border-radius: 15px;
+    border: 3px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transform: rotate(-15deg);
+}
+
+.panda {
+    width: 80%;
+    height: 80%;
+    position: relative;
+}
+
+.panda-head {
+    position: relative;
+    width: 100%;
+    height: 70%;
+}
+
+.panda-ear {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #000;
+    border-radius: 50%;
+    top: -5px;
+}
+
+.panda-ear:first-child {
+    left: 0;
+}
+
+.panda-ear:last-child {
+    right: 0;
+}
+
+.panda-face {
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+}
+
+.panda-eye {
+    width: 8px;
+    height: 8px;
+    background: #000;
+    border-radius: 50%;
+    margin: 3px 5px;
+}
+
+.panda-mouth {
+    width: 15px;
+    height: 8px;
+    border-bottom: 2px solid #000;
+    border-radius: 0 0 50% 50%;
+    margin-top: 5px;
+}
+
+.panda-body {
+    width: 100%;
+    height: 30%;
+    background: #000;
+    border-radius: 0 0 50% 50%;
+    position: relative;
+}
+
+.koi {
+    position: absolute;
+    width: 20px;
+    height: 10px;
+    background: linear-gradient(45deg, #ff4500, #ffd700);
+    border-radius: 50%;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* 圣诞节页脚 */
+.christmas-footer {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(139, 0, 0, 0.3);
+    border-top: 4px solid #ffd700;
+}
+
+.christmas-footer p {
+    font-size: 1.2rem;
+    animation: slideIn 2s ease-out;
+}
+
+/* 动画效果 */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .figurines-container {
+        gap: 2rem;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .monitor-frame {
+        width: 300px;
+        height: 180px;
+    }
+    
+    .sticker {
+        left: 20px;
+        bottom: 20px;
+    }
+    
+    .christmas-header h1 {
+        font-size: 2rem;
+    }
+    
+    .deer-head, .snowman-head {
+        transform: scale(0.8);
+    }
+    
+    .deer-body-main, .snowman-torso, .snowman-base {
+        transform: scale(0.8);
+    }
+}
