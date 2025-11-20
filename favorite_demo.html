@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML5收藏功能示例</title>
+    <link rel="stylesheet" href="favorite_style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>HTML5收藏功能示例</h1>
+        
+        <div class="item-list">
+            <div class="item">
+                <h3>项目一</h3>
+                <p>这是一个示例项目，可以被收藏</p>
+                <button class="favorite-btn" data-id="1">
+                    <span class="favorite-icon">☆</span>
+                    <span class="favorite-text">收藏</span>
+                </button>
+            </div>
+            
+            <div class="item">
+                <h3>项目二</h3>
+                <p>另一个可以收藏的项目</p>
+                <button class="favorite-btn" data-id="2">
+                    <span class="favorite-icon">☆</span>
+                    <span class="favorite-text">收藏</span>
+                </button>
+            </div>
+            
+            <div class="item">
+                <h3>项目三</h3>
+                <p>这个项目也可以被收藏</p>
+                <button class="favorite-btn" data-id="3">
+                    <span class="favorite-icon">☆</span>
+                    <span class="favorite-text">收藏</span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="favorite-list">
+            <h2>我的收藏</h2>
+            <div id="favorites-container">
+                <p id="no-favorites">还没有收藏任何项目</p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="favorite_script.js"></script>
+</body>
+</html>
