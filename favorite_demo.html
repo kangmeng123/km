@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>收藏功能演示</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        .item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+        }
+        
+        .item-content {
+            flex-grow: 1;
+            padding: 0 20px;
+        }
+        
+        .item-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .item-description {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .favorite-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 28px;
+            padding: 5px;
+            transition: all 0.3s ease;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .favorite-btn.favorited .favorite-icon {
+            color: #ff4757;
+            text-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
+        }
+        
+        .favorite-icon {
+            font-size: 32px;
+            transition: all 0.3s ease;
+            color: #ccc;
+        }
+        
+        .status {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e3f2fd;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .counter {
+            font-size: 16px;
+            color: #555;
+            margin-top: 5px;
+        }
+        
+        .instructions {
+            background-color: #e8f5e9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .instructions h3 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>HTML5 收藏功能演示</h1>
+    
+    <div class="instructions">
+        <h3>功能说明：</h3>
+        <p>点击下方项目旁的星形按钮进行收藏/取消收藏操作。收藏状态会保存在本地存储中，刷新页面后依然保持。</p>
+    </div>
+    
+    <div class="container">
+        <div class="item">
+            <div class="item-content">
+                <div class="item-title">项目一：图片收藏</div>
+                <div class="item-description">这是一个可以收藏的图片项目</div>
+            </div>
+            <button class="favorite-btn" data-id="1">
+                <span class="favorite-icon">☆</span>
+            </button>
+        </div>
+        
+        <div class="item">
+            <div class="item-content">
+                <div class="item-title">项目二：文章收藏</div>
+                <div class="item-description">这是一篇可以收藏的文章</div>
+            </div>
+            <button class="favorite-btn" data-id="2">
+                <span class="favorite-icon">☆</span>
+            </button>
+        </div>
+        
+        <div class="item">
+            <div class="item-content">
+                <div class="item-title">项目三：视频收藏</div>
+                <div class="item-description">这是一个可以收藏的视频</div>
+            </div>
+            <button class="favorite-btn" data-id="3">
+                <span class="favorite-icon">☆</span>
+            </button>
+        </div>
+        
+        <div class="status">
+            <div>收藏总数: <span id="total-favorites">0</span></div>
+            <div class="counter">当前收藏项目: <span id="current-favorites">0</span></div>
+        </div>
+    </div>
+
+    <script>
+        // 收藏功能实现
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化收藏状态
+            const favoriteButtons = document.querySelectorAll('.favorite-btn');
+            let totalFavorites = 0;
+            
+            // 检查本地存储中已有的收藏
+            favoriteButtons.forEach(button => {
+                const id = button.getAttribute('data-id');
+                const isFavorited = localStorage.getItem(`favorite_${id}`) === 'true';
+                
+                if (isFavorited) {
+                    button.classList.add('favorited');
+                    totalFavorites++;
+                }
+            });
+            
+            updateCounters();
+            
+            // 为每个收藏按钮添加点击事件
+            favoriteButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    const icon = this.querySelector('.favorite-icon');
+                    const isFavorited = this.classList.contains('favorited');
+                    
+                    if (isFavorited) {
+                        // 取消收藏
+                        this.classList.remove('favorited');
+                        icon.textContent = '☆';
+                        localStorage.setItem(`favorite_${id}`, 'false');
+                        totalFavorites--;
+                    } else {
+                        // 添加收藏
+                        this.classList.add('favorited');
+                        icon.textContent = '★';
+                        localStorage.setItem(`favorite_${id}`, 'true');
+                        totalFavorites++;
+                    }
+                    
+                    // 添加点击动画效果
+                    this.style.transform = 'scale(1.2)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 200);
+                    
+                    updateCounters();
+                    
+                    // 触发自定义事件
+                    const favoriteEvent = new CustomEvent('favoriteChanged', {
+                        detail: { id: id, isFavorited: !isFavorited, total: totalFavorites }
+                    });
+                    document.dispatchEvent(favoriteEvent);
+                });
+            });
+            
+            // 更新计数器显示
+            function updateCounters() {
+                const currentFavoritesElement = document.getElementById('current-favorites');
+                const totalFavoritesElement = document.getElementById('total-favorites');
+                
+                // 计算当前收藏数量
+                let currentCount = 0;
+                favoriteButtons.forEach(button => {
+                    if (button.classList.contains('favorited')) {
+                        currentCount++;
+                    }
+                });
+                
+                currentFavoritesElement.textContent = currentCount;
+                totalFavoritesElement.textContent = totalFavorites;
+            }
+            
+            // 监听收藏变化事件
+            document.addEventListener('favoriteChanged', function(e) {
+                console.log(`项目 ${e.detail.id} 收藏状态改变: ${e.detail.isFavorited}, 总收藏数: ${e.detail.total}`);
+            });
+        });
+    </script>
+</body>
+</html>
