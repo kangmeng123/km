@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>积分中心</title>
+    <link rel="stylesheet" href="points-center.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部导航栏 -->
+        <header class="navbar">
+            <div class="nav-left">
+                <span class="back-btn">←</span>
+            </div>
+            <div class="nav-center">
+                <h1>积分中心</h1>
+            </div>
+            <div class="nav-right">
+                <a href="#" class="points-detail">积分明细</a>
+            </div>
+        </header>
+
+        <!-- 积分展示区 -->
+        <section class="points-card">
+            <div class="points-info">
+                <div class="points-display">
+                    <span class="points-icon">💰</span>
+                    <span class="points-total">2688</span>
+                </div>
+                <p class="points-tip">积分不够用 立即充值</p>
+            </div>
+            <div class="character-image">
+                <div class="character">👤</div>
+            </div>
+        </section>
+
+        <!-- 签到日历区 -->
+        <section class="calendar-section">
+            <h2 class="checkin-title">本月已连续签到<span class="checkin-days">3天</span></h2>
+            <div class="calendar-grid">
+                <div class="calendar-header">
+                    <span>日</span>
+                    <span>一</span>
+                    <span>二</span>
+                    <span>三</span>
+                    <span>四</span>
+                    <span>五</span>
+                    <span>六</span>
+                </div>
+                <div class="calendar-body">
+                    <!-- 日历天数将通过JavaScript生成 -->
+                </div>
+            </div>
+            <div class="toggle-btn">收起^</div>
+        </section>
+
+        <!-- 本月任务区 -->
+        <section class="tasks-section">
+            <h2>本月任务</h2>
+            <div class="task-item">
+                <div class="task-icon">🔍</div>
+                <div class="task-content">
+                    <div class="task-title">每日探索 <span class="task-reward">+15</span></div>
+                    <p class="task-desc">触发任意搜索功能</p>
+                </div>
+                <button class="task-btn">去完成</button>
+            </div>
+        </section>
+    </div>
+    <script src="points-center.js"></script>
+</body>
+</html>
