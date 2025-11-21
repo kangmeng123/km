@@ -3,27 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>赛博朋克飞机大战</title>
+    <title>点赞互动页面</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="game-container">
-        <canvas id="game-canvas" width="800" height="600"></canvas>
-        <div id="ui">
-            <div id="score">得分: <span id="score-value">0</span></div>
-            <div id="lives">生命: <span id="lives-value">3</span></div>
-            <div id="game-over" class="hidden">
-                <h2>游戏结束</h2>
-                <p>最终得分: <span id="final-score">0</span></p>
-                <button id="restart-btn">重新开始</button>
+    <div class="container">
+        <header class="header">
+            <h1>点赞互动</h1>
+            <p>点击心形按钮表达你的喜欢</p>
+        </header>
+        
+        <main class="content">
+            <div class="like-section">
+                <div class="heart-container">
+                    <div class="heart" id="heart-btn">
+                        <svg class="heart-svg" viewBox="0 0 32 29.6">
+                            <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/>
+                        </svg>
+                        <div class="ripple"></div>
+                    </div>
+                    <div class="like-count">
+                        <span id="count">0</span>
+                        <span>点赞</span>
+                    </div>
+                </div>
+                
+                <div class="floating-hearts" id="floating-hearts"></div>
             </div>
-            <div id="start-screen">
-                <h1>赛博朋克飞机大战</h1>
-                <p>使用方向键移动，空格键发射子弹</p>
-                <button id="start-btn">开始游戏</button>
+            
+            <div class="stats-section">
+                <div class="stat-item">
+                    <div class="stat-number" id="total-likes">0</div>
+                    <div class="stat-label">总点赞数</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="click-rate">0</div>
+                    <div class="stat-label">点击速度/秒</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="combo">0</div>
+                    <div class="stat-label">连击数</div>
+                </div>
             </div>
-        </div>
+            
+            <div class="message-board">
+                <h3>留言板</h3>
+                <div class="message-input">
+                    <input type="text" id="message-input" placeholder="留下你的感想..." maxlength="50">
+                    <button id="send-btn">发送</button>
+                </div>
+                <div class="messages" id="messages"></div>
+            </div>
+        </main>
     </div>
+    
     <script src="script.js"></script>
 </body>
 </html>
