@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分享功能测试</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: #000;
+            color: #0f0;
+            padding: 20px;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            border: 2px solid #0ff;
+            box-shadow: 0 0 20px #0ff;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        
+        h1 {
+            color: #f0f;
+            text-align: center;
+            text-shadow: 0 0 10px #f0f;
+        }
+        
+        button {
+            background-color: #000;
+            color: #0f0;
+            border: 2px solid #0f0;
+            box-shadow: 0 0 10px #0f0;
+            padding: 10px 20px;
+            font-size: 18px;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            margin: 10px;
+        }
+        
+        button:hover {
+            background-color: #0f0;
+            color: #000;
+            box-shadow: 0 0 15px #0f0;
+        }
+        
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background-color: #111;
+            border: 2px solid #0ff;
+            box-shadow: 0 0 20px #0ff, inset 0 0 10px #0ff;
+            padding: 30px;
+            border-radius: 5px;
+            text-align: center;
+            position: relative;
+            max-width: 500px;
+            width: 80%;
+        }
+        
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #f0f;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: #0ff;
+        }
+        
+        .share-buttons {
+            margin-top: 20px;
+        }
+        
+        .share-btn {
+            display: inline-block;
+            background-color: #000;
+            color: #0f0;
+            border: 1px solid #0f0;
+            box-shadow: 0 0 10px #0f0;
+            padding: 8px 16px;
+            font-size: 16px;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        .share-btn:hover {
+            background-color: #0f0;
+            color: #000;
+            box-shadow: 0 0 15px #0f0;
+        }
+        
+        .share-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .share-message.success {
+            background-color: rgba(0, 255, 0, 0.2);
+            color: #0f0;
+            border: 1px solid #0f0;
+        }
+        
+        .share-message.error {
+            background-color: rgba(255, 0, 0, 0.2);
+            color: #f0f;
+            border: 1px solid #f0f;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>分享功能测试</h1>
+        <p>这是一个测试页面，用于验证分享功能是否正常工作。</p>
+        <button id="open-share-btn">打开分享模态窗口</button>
+        
+        <div id="share-modal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>分享你的成绩!</h3>
+                <p>我在赛博朋克飞机大战中获得了 <strong id="share-score">1250</strong> 分!</p>
+                <div class="share-buttons">
+                    <button id="copy-link-btn" class="share-btn">复制链接</button>
+                    <button id="twitter-share-btn" class="share-btn">分享到推特</button>
+                    <button id="facebook-share-btn" class="share-btn">分享到脸书</button>
+                </div>
+                <div id="share-message" class="share-message hidden"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const openShareBtn = document.getElementById('open-share-btn');
+        const shareModal = document.getElementById('share-modal');
+        const closeModal = document.querySelector('.close');
+        const copyLinkBtn = document.getElementById('copy-link-btn');
+        const twitterShareBtn = document.getElementById('twitter-share-btn');
+        const facebookShareBtn = document.getElementById('facebook-share-btn');
+        const shareScore = document.getElementById('share-score');
+        const shareMessage = document.getElementById('share-message');
+        
+        // 显示分享模态窗口
+        function showShareModal() {
+            shareModal.classList.remove('hidden');
+        }
+        
+        // 隐藏分享模态窗口
+        function hideShareModal() {
+            shareModal.classList.add('hidden');
+            shareMessage.classList.add('hidden');
+        }
+        
+        // 显示分享消息
+        function showMessage(message, type) {
+            shareMessage.textContent = message;
+            shareMessage.className = `share-message ${type}`;
+            shareMessage.classList.remove('hidden');
+            
+            setTimeout(() => {
+                shareMessage.classList.add('hidden');
+            }, 3000);
+        }
+        
+        // 打开分享模态窗口事件
+        openShareBtn.addEventListener('click', showShareModal);
+        
+        // 关闭模态窗口事件
+        closeModal.addEventListener('click', hideShareModal);
+        
+        // 点击模态窗口外部关闭
+        window.addEventListener('click', (event) => {
+            if (event.target === shareModal) {
+                hideShareModal();
+            }
+        });
+        
+        // 复制链接功能
+        copyLinkBtn.addEventListener('click', async () => {
+            try {
+                const shareURL = `${window.location.href}?score=${shareScore.textContent}&game=cyberpunk-shooter`;
+                await navigator.clipboard.writeText(shareURL);
+                showMessage('链接已复制到剪贴板!', 'success');
+            } catch (err) {
+                console.error('复制失败:', err);
+                showMessage('复制失败，请手动复制链接', 'error');
+            }
+        });
+        
+        // 分享到Twitter
+        twitterShareBtn.addEventListener('click', () => {
+            const text = `我在赛博朋克飞机大战中获得了 ${shareScore.textContent} 分！来挑战我的高分吧！`;
+            const url = `${window.location.href}?score=${shareScore.textContent}&game=cyberpunk-shooter`;
+            const twitterURL = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+            window.open(twitterURL, '_blank');
+        });
+        
+        // 分享到Facebook
+        facebookShareBtn.addEventListener('click', () => {
+            const url = `${window.location.href}?score=${shareScore.textContent}&game=cyberpunk-shooter`;
+            const facebookURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+            window.open(facebookURL, '_blank');
+        });
+    </script>
+</body>
+</html>

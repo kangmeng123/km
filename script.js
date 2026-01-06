@@ -8,6 +8,14 @@ const scoreElement = document.getElementById('score-value');
 const livesElement = document.getElementById('lives-value');
 const startBtn = document.getElementById('start-btn');
 const restartBtn = document.getElementById('restart-btn');
+const shareBtn = document.getElementById('share-btn');
+const shareModal = document.getElementById('share-modal');
+const closeModal = document.querySelector('.close');
+const copyLinkBtn = document.getElementById('copy-link-btn');
+const twitterShareBtn = document.getElementById('twitter-share-btn');
+const facebookShareBtn = document.getElementById('facebook-share-btn');
+const shareScore = document.getElementById('share-score');
+const shareMessage = document.getElementById('share-message');
 
 let gameRunning = false;
 let score = 0;
@@ -353,6 +361,18 @@ function gameOver() {
     gameOverScreen.classList.remove('hidden');
 }
 
+// 显示分享模态窗口
+function showShareModal() {
+    shareScore.textContent = score;
+    shareModal.classList.remove('hidden');
+}
+
+// 隐藏分享模态窗口
+function hideShareModal() {
+    shareModal.classList.add('hidden');
+    shareMessage.classList.add('hidden');
+}
+
 // 开始游戏
 startBtn.addEventListener('click', () => {
     startScreen.classList.add('hidden');
@@ -368,3 +388,58 @@ restartBtn.addEventListener('click', () => {
     initGame();
     gameLoop();
 });
+
+// 分享按钮事件
+shareBtn.addEventListener('click', () => {
+    showShareModal();
+});
+
+// 关闭模态窗口事件
+closeModal.addEventListener('click', hideShareModal);
+
+// 点击模态窗口外部关闭
+window.addEventListener('click', (event) => {
+    if (event.target === shareModal) {
+        hideShareModal();
+    }
+});
+
+// 复制链接功能
+copyLinkBtn.addEventListener('click', async () => {
+    try {
+        // 获取当前页面URL并添加分数参数
+        const shareURL = `${window.location.href}?score=${score}&game=cyberpunk-shooter`;
+        await navigator.clipboard.writeText(shareURL);
+        
+        showMessage('链接已复制到剪贴板!', 'success');
+    } catch (err) {
+        console.error('复制失败:', err);
+        showMessage('复制失败，请手动复制链接', 'error');
+    }
+});
+
+// 分享到Twitter
+twitterShareBtn.addEventListener('click', () => {
+    const text = `我在赛博朋克飞机大战中获得了 ${score} 分！来挑战我的高分吧！`;
+    const url = `${window.location.href}?score=${score}&game=cyberpunk-shooter`;
+    const twitterURL = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+    window.open(twitterURL, '_blank');
+});
+
+// 分享到Facebook
+facebookShareBtn.addEventListener('click', () => {
+    const url = `${window.location.href}?score=${score}&game=cyberpunk-shooter`;
+    const facebookURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+    window.open(facebookURL, '_blank');
+});
+
+// 显示分享消息
+function showMessage(message, type) {
+    shareMessage.textContent = message;
+    shareMessage.className = `share-message ${type}`;
+    shareMessage.classList.remove('hidden');
+    
+    setTimeout(() => {
+        shareMessage.classList.add('hidden');
+    }, 3000);
+}
