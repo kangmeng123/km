@@ -16,6 +16,20 @@
                 <h2>游戏结束</h2>
                 <p>最终得分: <span id="final-score">0</span></p>
                 <button id="restart-btn">重新开始</button>
+                <button id="share-btn">分享成绩</button>
+                <div id="share-modal" class="modal hidden">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <h3>分享你的成绩!</h3>
+                        <p>我在赛博朋克飞机大战中获得了 <strong id="share-score">0</strong> 分!</p>
+                        <div class="share-buttons">
+                            <button id="copy-link-btn" class="share-btn">复制链接</button>
+                            <button id="twitter-share-btn" class="share-btn">分享到推特</button>
+                            <button id="facebook-share-btn" class="share-btn">分享到脸书</button>
+                        </div>
+                        <div id="share-message" class="share-message hidden"></div>
+                    </div>
+                </div>
             </div>
             <div id="start-screen">
                 <h1>赛博朋克飞机大战</h1>
